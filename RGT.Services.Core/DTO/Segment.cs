@@ -1,5 +1,7 @@
-﻿using System;
+﻿using RGT.Services.Core.Data.RaceWebsite;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace RGT.Services.Core.DTO
 {
@@ -8,7 +10,12 @@ namespace RGT.Services.Core.DTO
         public int Id { get; set; }
         public string Name { get; set; }
 
-        public List<SegmentResult>  Results { get; set; }
+        public List<SegmentResult> Results { get; set; }
+
+        public List<SegmentResult> GetRidersBest()
+        {
+            return Results.Where(r => r.Best == true).OrderBy(o => o.Time).ToList();
+        }
 
         public override bool Equals(object obj)
         {

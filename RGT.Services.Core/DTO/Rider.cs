@@ -10,5 +10,10 @@
         public int Age { get; set; }
         public string CountryISOCode { get; set; }
         public string CountryName { get; set; }
+
+        public override string ToString()
+        {
+            return Name;
+        }
     }
 }

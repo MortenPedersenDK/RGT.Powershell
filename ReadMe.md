@@ -354,20 +354,82 @@ If creation is successful, an Event object is returned with EventId and SignupLi
 ```
 
 # Results
-## Get-RaceResults
+
+## Get-RGTRaceResult
+
 ### Description
+Gets a result from an event including signed up riders, segment results and the race result in itself.
+
 ### Syntax
+Get-RGTResult -EventId \<eventid\>
+
 ### Parameters
+- EventId: The id of the event, for example EVY23E
+
 ### Returns
-### Example
+If successful an EventResult object containing the following properties:
+- Name \<string\>
+- Result \<list\>
+- Segments \<list\>
+- Signups \<list\>
+
+**Result:**
+
+A list of Rider objects containing riders name and details like weight, height, country etc.
+
+**Segments**
+
+A list of segments if route contains any. Each Segment element contains a list of Result objects with time and rider for each passage of the segment.
+
+Each Segment object also contains a `GetRidersBest()` method that returns a list with each riders best segment result for that segment in that race.
+
+
+### Example 1
+```
+$result = Get-RGTResult -EventId "EVY23E"
+
+$result.Result | FT Rank, Rider, Time, Distance, Kmh, AvgPwr, Best20MinPwr, AvgHr
+```
+Retrieves the result and prints a result list to the console.
+
+### Example 2
+```
+$result = Get-RGTResult -EventId "EVY23E"
+
+$result.Signups | Sort-Object -Property Name | Format-Table Name, CountryName, Age, Weight, Height, Gender
+```
+Prints a list of all signed up riders ordered by their name.
+
+### Example 3
+
+```
+$result = Get-RGTResult -EventId "EVY23E"
+
+$result.Segments[0].GetRidersBest()
+```
+Prints the classification for the first segment.
+
 
 # Race Radio
-## Add-RaceRadioUser
+## Add-RGTRaceRadioUser
 ### Description
+Add a user to be able to talk in the race radio.
+
 ### Syntax
+Add-RGTRaceRadioUser -EventId \<string\> -UserEmail \<string\>
+
 ### Parameters
+- EventId: The id of the event, for example EVY23E
+- UserEmail: The email address/login of the user to add
+
 ### Returns
+`$true` if successful
+
 ### Example
+```
+Add-RGTRaceRadioUser -EventId "EVY23E" -UserEmail "john.doe@domain.com"
+```
+
 ## Get-RaceRadioUsers
 ### Description
 ### Syntax

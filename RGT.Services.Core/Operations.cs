@@ -122,6 +122,7 @@ namespace RGT.Services.Core
 
             var riderDict = eventResult.Signups.ToDictionary(k => k.UUID, k => k);
 
+            int rank = 1;
             eventResult.Result = result.results.Select(r =>
             {
                 var rider = riderDict[r.user.uuid];
@@ -132,11 +133,11 @@ namespace RGT.Services.Core
                 return new RaceResult
                 {
                     Rider = rider,
-                    Rank = r.rank,
+                    Rank = rank++,
                     Time = TimeSpan.Parse(r.time_min_sec),
-                    Distance = r.activity.distance / 1000,
-                    Kmh = r.activity.avg_speed * 360 / 1000,
-                    Mph = r.activity.avg_speed * 360 / 1609.344,
+                    Distance = r.activity.distance / (double)1000,
+                    Kmh = r.activity.avg_speed * 360 / 100,
+                    Mph = r.activity.avg_speed * 360 / 160.9344,
                     AvgHr = r.activity.avg_heart_rate,
                     AvgPwr = r.activity.avg_power,
                     Best20MinPwr = r.activity.best_20_min_avg_power
